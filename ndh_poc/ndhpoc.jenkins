@@ -1,0 +1,15 @@
+pipeline {
+    agent any 
+    stages {
+        stage('Clone Repo') {
+            steps {
+                git changelog: false, credentialsId: '597d38bd-b6ce-41b7-97ed-5a4fd1f88bad', url: 'https://github.com/munchine/ndh.git'
+            }
+        }
+        stage('Run Ansible Playbook') {
+            steps {
+                ansiblePlaybook playbook: 'playbook/plays/provision_landing_server/main.yml', vaultCredentialsId: 'Vault'
+            }
+        }
+    }
+}
